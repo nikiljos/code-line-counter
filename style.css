@@ -1,0 +1,53 @@
+body{
+    font-family: sans-serif;
+}
+
+#file-names div{
+    padding: 8px;
+    background-color: aliceblue;
+    /* width: 20vw; */
+    margin: 8px;
+    border-radius: 2px;
+    font-family: monospace;
+}
+
+#file-names{
+    min-width: 250px;
+    width: fit-content;
+}
+
+#open{
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    padding: 10px 3px;
+}
+
+a:hover{
+    background-color: aliceblue;
+}
+
+#status{
+    margin: 10px;
+    padding: 10px;
+    background-color: #f5d6d6;
+    border-radius: 10px;
+    width: fit-content;
+    display: none;
+}
+
+.space{
+    margin:20px 5px;
+}
+
+.bold{
+    font-weight: bold;
+}
