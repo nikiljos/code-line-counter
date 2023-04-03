@@ -28,11 +28,12 @@ body{
 
 a{
     text-decoration: none;
-    padding: 10px 3px;
+    padding: 10px 0;
 }
 
 a:hover{
     background-color: aliceblue;
+    border-radius: 5px;
 }
 
 #status{
@@ -50,4 +51,40 @@ a:hover{
 
 .bold{
     font-weight: bold;
+}
+
+.intro{
+    margin: 20px;
+}
+
+.in{
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    margin: 10px;
+}
+
+input[type="text"],textarea{
+    min-width: 200px;
+    width: 30vw;
+    padding: 10px;
+    background-color: aliceblue;
+    border: 2px dotted #24a0ed;
+    border-radius: 4px;
+}
+
+input[type="text"]:focus,textarea:focus{
+    border-color: #0f4567;
+    outline: none;
+}
+
+input[type="button"]{
+    max-width: 100px;
+    border: none;
+    background-color: #24a0ed;
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
 }
