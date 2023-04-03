@@ -28,8 +28,9 @@ let totalLine=0,totalNonBlank=0;
 function getFile(prefix,url){
     fetch(url+prefix)
     .then(res=>{
-        if(res.status==403){
-            addFiletoDOM("Github API Limit Exceeded 🥲")
+        if(!res.ok){
+            addFiletoDOM("Error: "+prefix+" --> "+res.status)
+            throw(new Error(res.status))
         }
         return res.json()
     })
