@@ -29,7 +29,7 @@ function getFile(prefix,url){
     fetch(url+prefix)
     .then(res=>{
         if(!res.ok){
-            addFiletoDOM("Error: "+prefix+" --> "+res.status)
+            addFiletoDOM("Error: "+prefix+" --> "+res.status,"error")
             throw(new Error(res.status))
         }
         return res.json()
@@ -76,7 +76,7 @@ function getFile(prefix,url){
                     checkCompletion();
                 })
                 .catch(err=>{
-                    addFiletoDOM(`Failed to load ${newFile}`);
+                    addFiletoDOM(`Failed to load ${newFile}`,"error");
                     errorCount++;
                     updateStatus();
                     console.log("Raw Error",err)
@@ -119,9 +119,10 @@ function checkCompletion(){
     
 }
 
-function addFiletoDOM(fileName){
+function addFiletoDOM(fileName,type){
     let $nameDiv=document.createElement("div");
     $nameDiv.innerText=fileName;
+    if(type==="error") $nameDiv.style.backgroundColor = "#fdeded";
     $fileNames.append($nameDiv)
 }
 
