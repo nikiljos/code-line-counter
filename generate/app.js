@@ -7,13 +7,15 @@ let $status = document.getElementById("status");
 
 $submitBtn.onclick=()=>{
     let ghUrl=$ghUrl.value;
-    let urlFragment=ghUrl.split("/");
-    if(urlFragment[2]!="github.com"){
+    let urlFragment=ghUrl&&ghUrl.split("/");
+    if(!urlFragment||urlFragment[2]!="github.com"){
         alert("Please enter a valid github URL!")
         return
     }
     let repo=urlFragment[3]+"/"+urlFragment[4]
-    $output.innerText = `[Count Code Lines](https://nikjos.in/code-line-counter/open?repo=${repo})`;
+    let url = `open?repo=${repo}`;
+    if (urlFragment[5] === "tree") url += `&branch=${urlFragment[6]}`;
+    $output.innerText = `[Count Code Lines](https://nikjos.in/code-line-counter/${url})`;
 }
 
 $copyBtn.onclick=()=>{

@@ -10,5 +10,8 @@ $redirectButton.onclick = () => {
     }
     let repo = urlFragment[3] + "/" + urlFragment[4];
     console.log(repo);
-    window.location = `./open?repo=${repo}`;
+    let url = `./open?repo=${repo}`;
+    if(urlFragment[5]==="tree") url+=`&branch=${urlFragment[6]}`
+    // console.log(urlFragment)
+    window.location =url;
 };

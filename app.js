@@ -23,6 +23,7 @@ let ghParams=(branch&&branch.trim()!="")?`?ref=${branch}`:"";
 let ghHeader=new Headers();
 let total=0,loaded=0,reject=0;
 let errorCount=0;
+let alertFlag=false
 
 let totalLine=0,totalNonBlank=0;
 
@@ -131,14 +132,14 @@ function lineCounter(fileContent){
     }
 }
 
+let assetFormats=["mp3","ogg","svg","m4a","mp4","mkv","pdf","png","jpg","jpeg","json","gif","ico"];
 function isAsset(format){
-    let assetFormats=["mp3","ogg","svg","m4a","mp4","mkv","pdf","png","jpg","jpeg","json","gif","ico"]
     return assetFormats.some(elt=>elt==format)
 }
 
 function checkCompletion(){
     if((loaded+reject)==total){
-        $counter.innerHTML += `<div class="file-box" style="background-color:#edf7ed">Completed loading all files...</div>`;
+        $counter.innerHTML += `<div class="space">Ignored File types: ${assetFormats.join(",")}</div> <div class="file-box" style="background-color:#edf7ed">Completed loading all files...</div>`;
         console.log(files)
     }
     
@@ -161,7 +162,8 @@ function updateCounter(){
     </div>
     `;
     if(reject>0){
-        counterString += `<div class="space">Skipped <span class="bold">${reject}</span> Asset files</div>`;
+        counterString += `<div class="space">Skipped <span class="bold">${reject}</span> Asset files</div>               
+        `;
     }
 
     $counter.innerHTML =counterString
@@ -176,7 +178,7 @@ function updateStatus(){
 }
 
 const addToken=()=>{
-    let userInput=prompt("Please enter a valid github token.\nThis key will be stored in you device itself and won't be visible to the developer.\n\nYou can replace the value with - to delete the token",localStorage.getItem("gh-token"))
+    let userInput=prompt("Please enter a valid github token.\nThis key will be stored in you device itself and won't be visible to the developer.\n\nYou can replace the value with - to delete the token",localStorage.getItem("gh-token")||"")
     if(userInput){
         if(userInput.length>5){
             localStorage.setItem("gh-token", userInput || "");
