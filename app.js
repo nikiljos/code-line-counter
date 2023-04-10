@@ -96,7 +96,7 @@ function lineCounter(fileContent){
     let lineArray = fileContent.split("\n")
     let nonBlank=0;
     lineArray.forEach(line=>{
-        if(line!==""){
+        if(line.trim()!==""){
             nonBlank++;
         }
     })
@@ -107,7 +107,7 @@ function lineCounter(fileContent){
 }
 
 function isAsset(format){
-    let assetFormats=["mp3","ogg","svg","m4a","png","jpg","jpeg","json"]
+    let assetFormats=["mp3","ogg","svg","m4a","mp4","mkv","pdf","png","jpg","jpeg","json","gif","ico"]
     return assetFormats.some(elt=>elt==format)
 }
 
