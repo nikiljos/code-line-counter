@@ -33,7 +33,7 @@ const updateHeader=()=>{
 
 const processToken=()=>{
     let localToken=localStorage.getItem("gh-token")
-    console.log({localToken})
+    // console.log({localToken})
     if(localToken&&localToken!="null"&&localToken!="undefined"&&localToken.trim()!=""){
         // ("Authorization":`Bearer ${localToken}`)
         ghHeader.append("Authorization", `Bearer ${localToken}`);
@@ -46,7 +46,7 @@ const processToken=()=>{
 }
 
 function getFile(prefix,url){
-    console.log(ghHeader)
+    // console.log(ghHeader)
     fetch(url+prefix+ghParams,{
         "method":"GET",
         "headers":ghHeader
