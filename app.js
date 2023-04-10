@@ -54,6 +54,15 @@ function getFile(prefix,url){
     .then(res=>{
         if(!res.ok){
             addFiletoDOM("Error: "+prefix+" --> "+res.status,"error")
+            if(!alertFlag){
+                if(res.status===403){
+                    alert("Github API Rate Limit Exceeded! Please add your API key.")
+                }
+                else if(res.status===404){
+                    alert("Seems like there is some error! Please check repo owner, name, branch.")
+                }
+                alertFlag=true
+            }
             throw(new Error(res.status))
         }
         return res.json()
@@ -173,6 +182,12 @@ function updateStatus(){
     if(errorCount>0){
         $status.innerHTML = `<div class="space">Failed to load <span class="bold">${errorCount}</span> Files</div>
         <div class="space">Please make sure that your Firewall/ISP is not blocking <code>raw.githubusercontent.com</code></div>`;
+        if(!alertFlag){
+            alert(
+                `Failed to load ${errorCount} files.\n\nPlease make sure that your Firewall/ISP is not blocking raw.githubusercontent.com`
+            );
+            alertFlag=true
+        }
     }
     $status.style.display="block"
 }
