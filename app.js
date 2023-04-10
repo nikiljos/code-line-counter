@@ -5,6 +5,8 @@ let $open=document.getElementById("open")
 let $rewrite = document.getElementById("rewrite");
 let $counter=document.getElementById("counter")
 let $status = document.getElementById("status");
+let $tokenInit=document.getElementById("token-init")
+let $header=document.getElementById("header")
 
 let urlParamPart = window.location.href.split("?")[1];
 let paramPlainText=urlParamPart.split("&");
@@ -14,19 +16,40 @@ paramPlainText.forEach(elt=>{
     params[parts[0]]=parts[1]
 })
 
-// if(params.repo==""||params.repo==undefined){
-//     throw("err")
-// }
-
-let {repo,type}=params
+// let auth=null
+let {repo,branch}=params
 let url = `https://api.github.com/repos/${repo}/contents/`;
+let ghParams=(branch&&branch.trim()!="")?`?ref=${branch}`:"";
+let ghHeader=new Headers();
 let total=0,loaded=0,reject=0;
 let errorCount=0;
 
 let totalLine=0,totalNonBlank=0;
 
+const updateHeader=()=>{
+    $header.innerHTML=`<h3>Repo: ${repo}</h3><h4>Branch: ${branch||"Default"}</h4>`
+}
+
+const processToken=()=>{
+    let localToken=localStorage.getItem("gh-token")
+    console.log({localToken})
+    if(localToken&&localToken!="null"&&localToken!="undefined"&&localToken.trim()!=""){
+        // ("Authorization":`Bearer ${localToken}`)
+        ghHeader.append("Authorization", `Bearer ${localToken}`);
+        $tokenInit.innerText="Edit API Key"
+        // console.log(ghHeader)
+    }
+    else{
+        console.log("Token Not Found")
+    }
+}
+
 function getFile(prefix,url){
-    fetch(url+prefix)
+    console.log(ghHeader)
+    fetch(url+prefix+ghParams,{
+        "method":"GET",
+        "headers":ghHeader
+    })
     .then(res=>{
         if(!res.ok){
             addFiletoDOM("Error: "+prefix+" --> "+res.status,"error")
@@ -89,6 +112,8 @@ function getFile(prefix,url){
     })
 }
 
+updateHeader()
+processToken()
 getFile("",url)
 // console.log(files)
 
@@ -113,7 +138,7 @@ function isAsset(format){
 
 function checkCompletion(){
     if((loaded+reject)==total){
-        $counter.innerHTML += `<div class="space">Completed loading all files...</div>`;
+        $counter.innerHTML += `<div class="file-box" style="background-color:#edf7ed">Completed loading all files...</div>`;
         console.log(files)
     }
     
@@ -121,6 +146,7 @@ function checkCompletion(){
 
 function addFiletoDOM(fileName,type){
     let $nameDiv=document.createElement("div");
+    $nameDiv.classList.add("file-box")
     $nameDiv.innerText=fileName;
     if(type==="error") $nameDiv.style.backgroundColor = "#fdeded";
     $fileNames.append($nameDiv)
@@ -148,3 +174,20 @@ function updateStatus(){
     }
     $status.style.display="block"
 }
+
+const addToken=()=>{
+    let userInput=prompt("Please enter a valid github token.\nThis key will be stored in you device itself and won't be visible to the developer.\n\nYou can replace the value with - to delete the token",localStorage.getItem("gh-token"))
+    if(userInput){
+        if(userInput.length>5){
+            localStorage.setItem("gh-token", userInput || "");
+        }
+        else{
+            localStorage.setItem("gh-token", "");
+        }
+        window.location.reload();
+    }
+    
+    
+}
+
+$tokenInit.onclick=addToken

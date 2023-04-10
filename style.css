@@ -2,7 +2,7 @@ body{
     font-family: sans-serif;
 }
 
-#file-names div{
+.file-box{
     padding: 8px;
     background-color: aliceblue;
     /* width: 20vw; */
@@ -80,7 +80,7 @@ input[type="text"]:focus,textarea:focus{
     outline: none;
 }
 
-input[type="button"]{
+input[type="button"],button{
     max-width: 100px;
     border: none;
     background-color: #24a0ed;
