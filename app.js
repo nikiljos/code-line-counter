@@ -83,7 +83,7 @@ function getFile(prefix,url){
             }
             else{
                 let format=file.name.split(".").at(-1)
-                if(isAsset(format)){
+                if(isAsset(format.toLowerCase())){
                     reject++;
                     updateCounter();
                     return
